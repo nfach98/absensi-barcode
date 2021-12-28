@@ -1,8 +1,8 @@
 @extends('layouts.base')
 
 @section('content')
+@include('layouts.navbars.sidebar')
 <div class="main-content position-relative bg-gray-100">
-    {{-- @include('layouts.navbars.sidebar') --}}
     @include('layouts.navbars.nav')
     <main>
         <div class="container-fluid">
