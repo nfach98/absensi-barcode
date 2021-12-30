@@ -107,14 +107,13 @@
                           </div>
                           <div class="mb-3">
                               <div class="@error('password') border border-danger rounded-3 @enderror">
-                                  <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Password" aria-label="Password">
+                                  <input id="password" name="password" type="password" class="form-control @error('password') is-invalid @enderror" required placeholder="Password">
                               </div>
                               @error('password') <div class="text-danger">{{ $message }}</div> @enderror
                           </div>
                           <div class="mb-3">
                               <div class="@error('password') border border-danger rounded-3 @enderror">
-                                  <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password"
-                                      placeholder="Confirm Password" aria-label="Confirm Password">
+                                  <input id="password-confirm" name="password_confirmation" type="password" class="form-control" required placeholder="Confirm Password">
                               </div>
                           </div>
                           <div class="form-check form-check-info text-left">

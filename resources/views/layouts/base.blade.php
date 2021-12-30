@@ -64,7 +64,7 @@
         </script>
     @endif
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <link rel="icon" type="image/png" href="{{ url('assets/img/logos/barcode.png') }}">
     <title>
         Sistem Presensi Pegawai
     </title>
@@ -78,9 +78,9 @@
     <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css" rel="stylesheet" />
+    <link href="../assets/css/app.css" rel="stylesheet" />
     <!-- Alpine -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-
 </head>
 
 <body class="g-sidenav-show bg-gray-100">

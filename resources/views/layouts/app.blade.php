@@ -7,9 +7,9 @@
     <main>
         <div class="container-fluid">
             @yield('app')
-            <div class="row">
+            {{-- <div class="row">
                 @include('layouts.footers.footer')
-            </div>
+            </div> --}}
         </div>
     </main>
 </div>

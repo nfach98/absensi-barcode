@@ -68,7 +68,7 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Profile Pegawai</span>
+                    <span class="nav-link-text ms-1">Profil Pegawai</span>
                 </a>
             </li>
         </ul>

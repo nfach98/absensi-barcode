@@ -3,7 +3,24 @@
 @section('app')
 <main>
     <div class="container-fluid py-4">
-        <div class="row">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-lg-6 col-md-12">
+                <div class="card bg-transparent shadow-xl">
+                    <div class="overflow-hidden position-relative border-radius-xl">
+                        <div class="card-body position-relative z-index-1 px-0 d-flex flex-column justify-content-center align-items-center">
+                            <div class="row">
+                                <h1 class="mb-3">QR Code Anda</h1>
+                            </div>
+                            <div class="row">
+                                {!! $qrcode !!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- <div class="row">
             <div class="col-lg-8">
                 <div class="row">
                     <div class="col-xl-6 mb-xl-0 mb-4">
@@ -12,6 +29,7 @@
                                 style="background-image: url('../assets/img/curved-images/curved14.jpg');">
                                 <span class="mask bg-gradient-dark"></span>
                                 <div class="card-body position-relative z-index-1 p-3">
+                                    <canvas hidden="" id="qr-canvas"></canvas>
                                     <i class="fas fa-wifi text-white p-2"></i>
                                     <h5 class="text-white mt-4 mb-5 pb-2">
                                         4562&nbsp;&nbsp;&nbsp;1122&nbsp;&nbsp;&nbsp;4594&nbsp;&nbsp;&nbsp;7852</h5>
@@ -372,7 +390,105 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </main>
+
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script type="text/javascript">
+    // Html5Qrcode.getCameras().then(devices => {
+  
+      if (devices && devices.length) {
+        var cameraId = devices[0].id;
+        const html5QrCode = new Html5Qrcode("qr-canvas");
+        html5QrCode.start(
+          cameraId, 
+          {
+            fps: 10
+          },
+          (decodedText, decodedResult) => {
+            console.log(`Code matched = ${decodedText}`, decodedResult);
+          },
+          (errorMessage) => {
+            // parse error, ignore it.
+          })
+        .catch((err) => {
+          // Start failed, handle it.
+        });
+      }
+    }).catch(err => {
+      // handle err
+    });
+
+    // function onScanSuccess(decodedText, decodedResult) {
+    //   console.log(`Code matched = ${decodedText}`, decodedResult);
+    // }
+
+    // function onScanFailure(error) {
+    //   console.warn(`Code scan error = ${error}`);
+    // }
+
+    // let html5QrcodeScanner = new Html5QrcodeScanner(
+    //   "qr-canvas",
+    //   { fps: 10, qrbox: {width: 250, height: 250} },
+    //   /* verbose= */ false);
+    // html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+    // var scan_res = null;
+    // const video = document.createElement("video");
+    // const canvasElement = document.getElementById("qr-canvas");
+    // const canvas = canvasElement.getContext("2d");
+
+    // window.onload = function() {
+    //     // const qrResult = document.getElementById("qr-result");
+    //     // const outputData = document.getElementById("outputData");
+    //     // const btnScanQR = document.getElementById("btn-scan-qr");
+
+    //     if(!navigator.mediaDevices){
+    //         outputData.innerText = "chrome://flags/#unsafely-treat-insecure-origin-as-secure";  
+    //         qrResult.hidden = false;
+    //     }
+    //     navigator.mediaDevices
+    //         .getUserMedia({ video: { facingMode: "environment" } })
+    //         .then(function(stream) {
+    //             scanning = true;
+    //             canvasElement.hidden = false;
+    //             video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+    //             video.srcObject = stream;
+    //             video.play();
+    //             tick();
+    //             scan();
+    //     });
+
+    //     qrcode.callback = res => {
+    //         if (res) {
+    //             console.log(res);
+    //             scan_res = res;
+    //             scanning = false;
+
+    //             video.srcObject.getTracks().forEach(track => {
+    //                 track.stop();
+    //             });
+
+    //             canvasElement.hidden = true;
+    //         }
+    //     };
+    // }
+
+    // function tick() {
+    //     canvasElement.height = video.videoHeight;
+    //     canvasElement.width = video.videoWidth;
+    //     canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+
+    //     scanning && requestAnimationFrame(tick);
+    // }
+
+    // function scan() {
+    //     try {
+    //         qrcode.decode();
+    //     } catch (e) {
+    //         setTimeout(scan, 300);
+    //     }
+    // }
+</script>
 @endsection
