@@ -11,7 +11,8 @@
 	                        <div>
 	                            <h5 class="mb-0">Data Pegawai</h5>
 	                        </div>
-	                        <a href="#" class="btn bg-gradient-primary btn-sm mb-0" type="date"><?php $tgl=date('l, d-m-Y'); echo $tgl; ?></a>
+	                        <div class="btn bg-gradient-primary btn-sm mb-0" type="date">{{ \Carbon\Carbon::now()->isoFormat('dddd, D MMMM Y')
+	                        }}</div>
 	                    </div>
 	                </div>
 	                <div class="card-body px-0 pt-0 pb-2">
@@ -43,7 +44,7 @@
 	                            	@foreach($users as $user)
 	                            	<tr>
 	                                    <td class="text-center">
-	                                    	<div class="d-flex flex-row justify-content-start align-items-center">
+	                                    	<div class="d-flex flex-row justify-content-start align-items-center px-2">
 	                                            <img src="{{ $user->foto ? url($user->foto) : url('assets\img\placeholder_avatar.png') }}" class="avatar avatar-sm me-3">
 	                                        	<p class="text-xs font-weight-bold mb-0">{{ $user->name }}</p>
 	                                    	</div>
@@ -58,7 +59,7 @@
 	                                        <span class="text-secondary text-xs font-weight-bold">{{ $user->phone }}</span>
 	                                    </td>
 	                                     <td class="text-center">
-	                                        <span class="text-secondary text-xs font-weight-bold">{{ $user->jam_masuk }}</span>
+	                                        <span class="text-secondary text-xs font-weight-bold">{{ date('H:i:s', strtotime($user->jam_masuk)) }}</span>
 	                                    </td>
 	                                     <td class="text-center">
 	                                        <span class="text-secondary text-xs font-weight-bold">{{ $user->suhu_badan }} °C</span>
