@@ -46,13 +46,13 @@
             <div class="container-fluid py-4">
                 <div class="card">
                     <div class="card-header pb-0 px-3">
-                        <h6 class="mb-0">{{ __('Profile Information') }}</h6>
+                        <h6 class="mb-0">Informasi Profil</h6>
                     </div>
                     <div class="card-body pt-4 p-3">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="name" class="form-control-label">{{ __('Name') }}</label>
+                                    <label for="name" class="form-control-label">Nama</label>
                                     <div class="@error('name')border border-danger rounded-3 @enderror">
                                         <input id="name" name="name" class="form-control" type="text" placeholder="Name" value="{{ Auth::user()->name }}">
                                     </div>
@@ -61,7 +61,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="email" class="form-control-label">{{ __('Email') }}</label>
+                                    <label for="email" class="form-control-label">Email</label>
                                     <div class="@error('email')border border-danger rounded-3 @enderror">
                                         <input id="email" name="email" class="form-control" type="email"
                                             placeholder="Email" value="{{ Auth::user()->email }}">
@@ -70,10 +70,49 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="password" class="form-control-label"> New Password</label>
+                                    <label for="jabatan" class="form-control-label">Jabatan</label>
+                                    <div class="@error('jabatan')border border-danger rounded-3 @enderror">
+                                        <input id="jabatan" name="jabatan" class="form-control" type="text" placeholder="Jabatan" value="{{ Auth::user()->jabatan }}">
+                                    </div>
+                                    @error('jabatan') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="location" class="form-control-label">Lokasi</label>
+                                    <div class="@error('location')border border-danger rounded-3 @enderror">
+                                        <input id="location" name="location" class="form-control" type="text"
+                                            placeholder="Lokasi" value="{{ Auth::user()->location }}">
+                                    </div>
+                                    @error('location') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone" class="form-control-label">No Telepon</label>
+                                    <div class="@error('phone')border border-danger rounded-3 @enderror">
+                                        <input id="phone" name="phone" class="form-control" type="tel" placeholder="No Telepon" value="{{ Auth::user()->phone }}">
+                                    </div>
+                                    @error('phone') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                        </div>
+
+                        <h6 class="mt-5">Informasi Keamanan</h6>
+
+                        <div class="row pt-4 ">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="password" class="form-control-label">Password Baru</label>
                                     <div class="@error('password')border border-danger rounded-3 @enderror">
                                         <input id="password" name="password" class="form-control" type="password"
                                             placeholder="Password">
@@ -83,7 +122,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="password-confirm" class="form-control-label">Confirm New Password</label>
+                                    <label for="password-confirm" class="form-control-label">Konfirmasi Password Baru</label>
                                     <div class="@error('user.location') border border-danger rounded-3 @enderror">
                                         <input id="password-confirm" name="password_confirmation" class="form-control" type="password"
                                             placeholder="Confirm Password" autocomplete="new-password">
@@ -91,14 +130,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="form-group">
-                            <label for="about">{{ 'About Me' }}</label>
-                            <div class="@error('user.about')border border-danger rounded-3 @enderror">
-                                <textarea wire:model="user.about" class="form-control" id="about" rows="3"
-                                    placeholder="Say something about yourself"></textarea>
-                            </div>
-                            @error('user.about') <div class="text-danger">{{ $message }}</div> @enderror
-                        </div> --}}
+                        
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn bg-gradient-dark btn-md mt-4 mb-4">{{ 'Save Changes' }}</button>
                         </div>
