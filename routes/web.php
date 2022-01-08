@@ -10,6 +10,8 @@ Route::middleware('auth')->group(function () {
 	});
 	Route::get('/management', [App\Http\Controllers\ManagementController::class, 'index'])->name('management');
 
+	Route::get('/recap', [App\Http\Controllers\RecapController::class, 'index'])->name('recap');
+
 	Route::get('/presensi', [App\Http\Controllers\PresensiController::class, 'index'])->name('presensi');
 
 	Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
