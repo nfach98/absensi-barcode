@@ -83,10 +83,10 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="location" class="form-control-label">Lokasi</label>
+                                    <label for="location" class="form-control-label">Alamat</label>
                                     <div class="@error('location')border border-danger rounded-3 @enderror">
                                         <input id="location" name="location" class="form-control" type="text"
-                                            placeholder="Lokasi" value="{{ Auth::user()->location }}">
+                                            placeholder="Alamat" value="{{ Auth::user()->location }}">
                                     </div>
                                     @error('location') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>

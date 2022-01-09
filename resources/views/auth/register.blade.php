@@ -50,8 +50,8 @@
                           </div>
                            <div class="mb-3">
                               <div class="@error('location') border border-danger rounded-3 @enderror">
-                                  <input id="location" type="text" class="form-control @error('location') is-invalid @enderror" name="location" value="{{ old('location') }}" required placeholder="Lokasi"
-                                      aria-label="Lokasi">
+                                  <input id="location" type="text" class="form-control @error('location') is-invalid @enderror" name="location" value="{{ old('location') }}" required placeholder="Alamat"
+                                      aria-label="Alamat">
                               </div>
                               @error('lokasi') <div class="text-danger">{{ $message }}</div> @enderror
                           </div>
