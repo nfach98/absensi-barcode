@@ -11,7 +11,7 @@
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
-            <li class="nav-item pb-2">
+            {{-- <li class="nav-item pb-2">
                 <a class="nav-link {{ Route::currentRouteName() == 'recap' ? 'active' : '' }}"
                     href="{{ route('recap') }}">
                     <div
@@ -22,7 +22,7 @@
                     </div>
                     <span class="nav-link-text ms-1">Rekapitulasi Bulanan</span>
                 </a>
-            </li>
+            </li> --}}
 
             <li class="nav-item pb-2">
                 <a class="nav-link {{ Route::currentRouteName() == 'management' ? 'active' : '' }}"

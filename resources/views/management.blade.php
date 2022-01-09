@@ -67,10 +67,18 @@
 		                                        <span class="text-secondary text-xs font-weight-bold">{{ $user->phone }}</span>
 		                                    </td>
 		                                     <td class="text-center">
-		                                        <span class="text-secondary text-xs font-weight-bold">{{ date('H:i:s', strtotime($user->jam_masuk)) }}</span>
+		                                     	<div class="d-flex flex-column justify-content-center align-items-center px-2">
+		                                            <span class="text-secondary text-xs font-weight-bold">{{ date('H:i:s', strtotime($user->jam_masuk)) }}</span>
+		                                        	@if(date('H', strtotime($user->jam_masuk)) >= 8 && date('i', strtotime($user->jam_masuk)) >= 0)
+		                                        		<span class="text-danger text-xs font-weight-bold">Terlambat</span>
+		                                        	@endif
+		                                    	</div>
 		                                    </td>
 		                                     <td class="text-center">
-		                                        <span class="text-secondary text-xs font-weight-bold">{{ $user->suhu_badan }} °C</span>
+		                                     	<div class="d-flex flex-column justify-content-center align-items-center px-2">
+		                                            <span class="text-secondary text-xs font-weight-bold">{{ $user->suhu_badan }} °C</span>
+		                                        	<span class="text-{{ $user->suhu_badan > 37 ? 'danger' : 'secondary'}} text-xs font-weight-bold">{{ $user->suhu_badan > 37 ? 'WFH' : 'WFO'}}</span>
+		                                    	</div>
 		                                    </td>
 		                                    {{-- <td class="text-center">
 		                                        <a href="#" class="mx-3" data-bs-toggle="tooltip"
