@@ -24,7 +24,7 @@ class User extends Authenticatable
         'jabatan',
         'phone',
         'location',
-        'jam_masuk',
+        'jam_absen',
         'suhu_badan',
         'foto'
     ];

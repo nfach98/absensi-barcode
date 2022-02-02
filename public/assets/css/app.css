@@ -8,3 +8,14 @@ input[type="file"] {
   outline-style: solid;
   outline-width: 0.5px;
 }
+
+#datepicker {
+	max-width: 300px;
+	color: #fff;
+	border: 0;
+	background-image: linear-gradient(310deg, #f53939 0%, #fbcf33 100%);
+	cursor: pointer;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: 700;
+}

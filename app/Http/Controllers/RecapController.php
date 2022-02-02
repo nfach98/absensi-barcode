@@ -10,19 +10,75 @@ use Auth;
 
 class RecapController extends Controller
 {
-    public function index()
+    public function index($date)
     {
-    	$absensi = Absensi::select("dataAbsensi.id", "dataAbsensi.suhu_badan", "dataAbsensi.jam_masuk", "users.name", "users.email", "users.foto", "users.jabatan", "users.phone", "users.location" , DB::raw("COUNT(*) AS jumlah_masuk"))
-        ->join('users', 'users.id', '=', 'dataAbsensi.id_pegawai')
-        ->where([
-        	[DB::raw('MONTH(dataAbsensi.jam_masuk)'), date('m')],
-        	[DB::raw('YEAR(dataAbsensi.jam_masuk)'), date('Y')],
+        $month = explode("-",$date)[0];
+        $year = explode("-",$date)[1];
 
-        ])
-        ->orderBy('jumlah_masuk', 'desc')
-        ->orderBy('dataAbsensi.jam_masuk', 'asc')
-        ->groupBy('dataAbsensi.id_pegawai')
-        ->get();
-        return view('recap', ["users" => $absensi]);
+    	$masuk = Absensi::select("dataAbsensi.id", "dataAbsensi.suhu_badan", "dataAbsensi.jam_absen", "users.name", "users.email", "users.foto", "users.jabatan", "users.phone", "users.location", "shifts.name AS shift", "shifts.jam_masuk")
+        ->join('users', 'users.id', '=', 'dataAbsensi.id_pegawai')
+        ->join('shifts', 'shifts.id', '=', 'users.id_shift')
+        ->whereYear('dataAbsensi.jam_absen', $year)
+        ->whereMonth('dataAbsensi.jam_absen', $month)
+        ->orderBy('dataAbsensi.jam_absen', 'asc')
+        ->get()
+        ->unique('dataAbsensi.id_pegawai');
+
+        $id_masuk = Absensi::select("dataAbsensi.id")
+        ->join('users', 'users.id', '=', 'dataAbsensi.id_pegawai')
+        ->join('shifts', 'shifts.id', '=', 'users.id_shift')
+        ->whereYear('dataAbsensi.jam_absen', $year)
+        ->whereMonth('dataAbsensi.jam_absen', $month)
+        ->orderBy('dataAbsensi.jam_absen', 'asc')
+        ->get()
+        ->unique('dataAbsensi.id_pegawai');
+
+        $pulang = Absensi::select("dataAbsensi.id", "dataAbsensi.suhu_badan", "dataAbsensi.jam_absen", "users.name", "users.email", "users.foto", "users.jabatan", "users.phone", "users.location", "shifts.name AS shift", "shifts.jam_pulang")
+        ->join('users', 'users.id', '=', 'dataAbsensi.id_pegawai')
+        ->join('shifts', 'shifts.id', '=', 'users.id_shift')
+        ->whereYear('dataAbsensi.jam_absen', $year)
+        ->whereMonth('dataAbsensi.jam_absen', $month)
+        ->whereNotIn('dataAbsensi.id', $id_masuk)
+        ->orderBy('dataAbsensi.jam_absen', 'desc')
+        ->get()
+        ->unique('dataAbsensi.id_pegawai');
+
+        return view('recap', ["masuk" => $masuk, "pulang" => $pulang, "date" => $date]);
+    }
+
+    public function getRecap(Request $request)
+    {
+        $month = $request->month;
+        $year = $request->year;
+
+        $masuk = Absensi::select("dataAbsensi.id", "dataAbsensi.suhu_badan", "dataAbsensi.jam_absen", "users.name", "users.email", "users.foto", "users.jabatan", "users.phone", "users.location", "shifts.name AS shift", "shifts.jam_masuk")
+        ->join('users', 'users.id', '=', 'dataAbsensi.id_pegawai')
+        ->join('shifts', 'shifts.id', '=', 'users.id_shift')
+        ->whereYear('dataAbsensi.jam_absen', $year)
+        ->whereMonth('dataAbsensi.jam_absen', $month)
+        ->orderBy('dataAbsensi.jam_absen', 'asc')
+        ->get()
+        ->unique('dataAbsensi.id_pegawai');
+
+        $id_masuk = Absensi::select("dataAbsensi.id")
+        ->join('users', 'users.id', '=', 'dataAbsensi.id_pegawai')
+        ->join('shifts', 'shifts.id', '=', 'users.id_shift')
+        ->whereYear('dataAbsensi.jam_absen', $year)
+        ->whereMonth('dataAbsensi.jam_absen', $month)
+        ->orderBy('dataAbsensi.jam_absen', 'asc')
+        ->get()
+        ->unique('dataAbsensi.id_pegawai');
+
+        $pulang = Absensi::select("dataAbsensi.id", "dataAbsensi.suhu_badan", "dataAbsensi.jam_absen", "users.name", "users.email", "users.foto", "users.jabatan", "users.phone", "users.location", "shifts.name AS shift", "shifts.jam_pulang")
+        ->join('users', 'users.id', '=', 'dataAbsensi.id_pegawai')
+        ->join('shifts', 'shifts.id', '=', 'users.id_shift')
+        ->whereYear('dataAbsensi.jam_absen', $year)
+        ->whereMonth('dataAbsensi.jam_absen', $month)
+        ->whereNotIn('dataAbsensi.id', $id_masuk)
+        ->orderBy('dataAbsensi.jam_absen', 'desc')
+        ->get()
+        ->unique('dataAbsensi.id_pegawai');
+
+        return ["masuk" => $masuk, "pulang" => $pulang];
     }
 }
