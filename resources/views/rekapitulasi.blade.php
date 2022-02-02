@@ -9,9 +9,9 @@
 	                <div class="card-header pb-0">
 	                    <div class="d-flex flex-row justify-content-between">
 	                        <div>
-	                            <h5 class="mb-0">Rekapitulasi Bulanan</h5>
+	                            <h5 class="mb-0">Data Absensi</h5>
 	                        </div>
-                        	<input type="text" class="form-control" name="datepicker" id="datepicker" value="{{ $date }}" />
+	                        <input type="text" class="form-control" name="datepicker" id="datepicker" />
 	                    </div>
                         
 	                </div>
@@ -36,6 +36,15 @@
 			                                        Pegawai
 			                                    </th>
 			                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+			                                        Email
+			                                    </th>
+			                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+			                                        Jabatan
+			                                    </th>
+			                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+			                                        No. Telp
+			                                    </th>
+			                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
 			                                        Shift
 			                                    </th>
 			                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -54,6 +63,15 @@
 			                                            <img src="{{ $user_masuk->foto ? url($user_masuk->foto) : url('assets\img\placeholder_avatar.png') }}" class="avatar avatar-sm me-3">
 			                                        	<p class="text-{{ $user_masuk->suhu_badan > 37 || date('H', strtotime($user_masuk->jam_absen)) >= date('H', strtotime($user_masuk->jam_masuk)) && date('i', strtotime($user_masuk->jam_absen)) >= date('i', strtotime($user_masuk->jam_masuk)) ? 'danger' : 'secondary'}} text-xs font-weight-bold mb-0">{{ $user_masuk->name }}</p>
 			                                    	</div>
+			                                    </td>
+			                                    <td class="text-center">
+			                                        <p class="text-xs font-weight-bold mb-0">{{ $user_masuk->email }}</p>
+			                                    </td>
+			                                    <td class="text-center">
+			                                        <p class="text-xs font-weight-bold mb-0">{{ $user_masuk->jabatan }}</p>
+			                                    </td>
+			                                    <td class="text-center">
+			                                        <span class="text-secondary text-xs font-weight-bold">{{ $user_masuk->phone }}</span>
 			                                    </td>
 			                                    <td class="text-center">
 			                                        <span class="text-secondary text-xs font-weight-bold">{{ $user_masuk->shift }}</span>
@@ -91,6 +109,15 @@
 			                                        Pegawai
 			                                    </th>
 			                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+			                                        Email
+			                                    </th>
+			                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+			                                        Jabatan
+			                                    </th>
+			                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+			                                        No. Telp
+			                                    </th>
+			                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
 			                                        Shift
 			                                    </th>
 			                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -111,9 +138,18 @@
 			                                    	</div>
 			                                    </td>
 			                                    <td class="text-center">
-			                                        <span class="text-secondary text-xs font-weight-bold">{{ $user_pulang->shift }}</span>
+			                                        <p class="text-xs font-weight-bold mb-0">{{ $user_pulang->email }}</p>
 			                                    </td>
 			                                    <td class="text-center">
+			                                        <p class="text-xs font-weight-bold mb-0">{{ $user_pulang->jabatan }}</p>
+			                                    </td>
+			                                    <td class="text-center">
+			                                        <span class="text-secondary text-xs font-weight-bold">{{ $user_pulang->phone }}</span>
+			                                    </td>
+			                                    <td class="text-center">
+			                                        <span class="text-secondary text-xs font-weight-bold">{{ $user_pulang->shift }}</span>
+			                                    </td>
+			                                     <td class="text-center">
 			                                     	<div class="d-flex flex-column justify-content-center align-items-center px-2">
 			                                            <span class="text-{{ date('H', strtotime($user_pulang->jam_absen)) < date('H', strtotime($user_pulang->jam_pulang)) ? 'danger' : 'secondary'}} text-xs font-weight-bold">{{ date('H:i:s', strtotime($user_pulang->jam_absen)) }}</span>
 			                                        	@if(date('H', strtotime($user_pulang->jam_absen)) < date('H', strtotime($user_pulang->jam_pulang)))
@@ -121,7 +157,7 @@
 			                                        	@endif
 			                                    	</div>
 			                                    </td>
-			                                    <td class="text-center">
+			                                     <td class="text-center">
 			                                     	<div class="d-flex flex-column justify-content-center align-items-center px-2">
 			                                            <span class="text-{{ $user_pulang->suhu_badan > 37 ? 'danger' : 'secondary'}} text-xs font-weight-bold">{{ $user_pulang->suhu_badan }} °C</span>
 			                                        	<span class="text-{{ $user_pulang->suhu_badan > 37 ? 'danger' : 'secondary'}} text-xs font-weight-bold">{{ $user_pulang->suhu_badan > 37 ? 'WFH' : 'WFO'}}</span>
@@ -144,28 +180,29 @@
 <script type="text/javascript">
 	window.onload = function () {
 		var options = { hour12: false };
+		var now = new Date();
+		var month = now.getMonth();
+		var year = now.getYear();
+
+		$(".datepicker").datepicker("update", now);
 
 		var dp = $("#datepicker").datepicker( {
-		   format: "mm-yyyy",
-		   startView: "months", 
-		   minViewMode: "months"
+		    format: "mm-yyyy",
+		    startView: "months", 
+		    minViewMode: "months"
 		});
 
 		dp.on('changeMonth', function (e) {    
-		   var month = e.date.getMonth();
-		   var year = e.date.getFullYear();
-		   var url = "{{ url('recap') }}";
-		   location.replace(url + "/" + (month < 10 ? "0" + (month+1) : (month+1)) + "-" + year);
+		   month = e.date.getMonth();
+		   year = e.date.getYear();
 		});
 
 		setInterval(function() {
 		    $.ajax({
-		      url: "{{ route('recap-all') }}",
+		      url: "{{ route('absensi') }}",
 		      type: "POST",
 		      data: {
-		        _token:'{{ csrf_token() }}',
-		        month: '{{ explode("-",$date)[0] }}',
-		        year: '{{ explode("-",$date)[1] }}'
+		        _token:'{{ csrf_token() }}'
 		      },
 		      cache: false,
 		      dataType: 'json',
@@ -205,6 +242,15 @@
                                 	</div>\
                                 </td>\
                                 <td class='text-center'>\
+                                    <p class='text-xs font-weight-bold mb-0'>" + item.email + "</p>\
+                                </td>\
+                                <td class='text-center'>\
+                                    <p class='text-xs font-weight-bold mb-0'>" + item.jabatan + "</p>\
+                                </td>\
+                                <td class='text-center'>\
+                                    <span class='text-secondary text-xs font-weight-bold'>" + item.phone + "</span>\
+                                </td>\
+                                <td class='text-center'>\
                                     <span class='text-secondary text-xs font-weight-bold'>" + item.shift + "</span>\
                                 </td>\
                                 <td class='text-center'>\
@@ -231,6 +277,15 @@
 	                                <tr>\
 	                                    <th class='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>\
 	                                        Pegawai\
+	                                    </th>\
+	                                    <th class='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>\
+	                                        Email\
+	                                    </th>\
+	                                    <th class='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>\
+	                                        Jabatan\
+	                                    </th>\
+	                                    <th class='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>\
+	                                        No. Telp\
 	                                    </th>\
 	                                    <th class='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>\
 	                                        Shift\
@@ -269,6 +324,15 @@
                                 	</div>\
                                 </td>\
                                 <td class='text-center'>\
+                                    <p class='text-xs font-weight-bold mb-0'>" + item.email + "</p>\
+                                </td>\
+                                <td class='text-center'>\
+                                    <p class='text-xs font-weight-bold mb-0'>" + item.jabatan + "</p>\
+                                </td>\
+                                <td class='text-center'>\
+                                    <span class='text-secondary text-xs font-weight-bold'>" + item.phone + "</span>\
+                                </td>\
+                                <td class='text-center'>\
                                     <span class='text-secondary text-xs font-weight-bold'>" + item.shift + "</span>\
                                 </td>\
                                 <td class='text-center'>\
@@ -295,6 +359,15 @@
 	                                <tr>\
 	                                    <th class='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>\
 	                                        Pegawai\
+	                                    </th>\
+	                                    <th class='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>\
+	                                        Email\
+	                                    </th>\
+	                                    <th class='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>\
+	                                        Jabatan\
+	                                    </th>\
+	                                    <th class='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>\
+	                                        No. Telp\
 	                                    </th>\
 	                                    <th class='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>\
 	                                        Shift\
