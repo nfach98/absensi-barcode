@@ -7,4 +7,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('absensi', [App\Http\Controllers\ManagementController::class, 'getAbsensi'])->name('absensi');
-Route::post('/recap-all', [App\Http\Controllers\RecapController::class, 'getRecap'])->name('recap-all');
+Route::post('recap-all', [App\Http\Controllers\RecapController::class, 'getRecap'])->name('recap-all');

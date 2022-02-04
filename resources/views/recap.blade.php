@@ -60,7 +60,7 @@
 			                                    </td>
 			                                     <td class="text-center">
 			                                     	<div class="d-flex flex-column justify-content-center align-items-center px-2">
-			                                            <span class="text-{{ date('H', strtotime($user_masuk->jam_absen)) >= date('H', strtotime($user_masuk->jam_masuk)) && date('i', strtotime($user_masuk->jam_absen)) >= date('i', strtotime($user_masuk->jam_masuk)) ? 'danger' : 'secondary'}} text-xs font-weight-bold">{{ date('H:i:s', strtotime($user_masuk->jam_absen)) }}</span>
+			                                            <span class="text-{{ date('H', strtotime($user_masuk->jam_absen)) >= date('H', strtotime($user_masuk->jam_masuk)) && date('i', strtotime($user_masuk->jam_absen)) >= date('i', strtotime($user_masuk->jam_masuk)) ? 'danger' : 'secondary'}} text-xs font-weight-bold">{{ Carbon\Carbon::parse($user_masuk->jam_absen)->format('j M Y H:i:s') }}</span>
 			                                        	@if(date('H', strtotime($user_masuk->jam_absen)) >= date('H', strtotime($user_masuk->jam_masuk)) && date('i', strtotime($user_masuk->jam_absen)) >= date('i', strtotime($user_masuk->jam_masuk)))
 			                                        		<span class="text-danger text-xs font-weight-bold">Terlambat</span>
 			                                        	@endif
@@ -115,7 +115,7 @@
 			                                    </td>
 			                                    <td class="text-center">
 			                                     	<div class="d-flex flex-column justify-content-center align-items-center px-2">
-			                                            <span class="text-{{ date('H', strtotime($user_pulang->jam_absen)) < date('H', strtotime($user_pulang->jam_pulang)) ? 'danger' : 'secondary'}} text-xs font-weight-bold">{{ date('H:i:s', strtotime($user_pulang->jam_absen)) }}</span>
+			                                            <span class="text-{{ date('H', strtotime($user_pulang->jam_absen)) < date('H', strtotime($user_pulang->jam_pulang)) ? 'danger' : 'secondary'}} text-xs font-weight-bold">{{ Carbon\Carbon::parse($user_pulang->jam_absen)->format('j M Y H:i:s') }}</span>
 			                                        	@if(date('H', strtotime($user_pulang->jam_absen)) < date('H', strtotime($user_pulang->jam_pulang)))
 			                                        		<span class="text-danger text-xs font-weight-bold">Pulang awal</span>
 			                                        	@endif
@@ -158,6 +158,8 @@
 		   location.replace(url + "/" + (month < 10 ? "0" + (month+1) : (month+1)) + "-" + year);
 		});
 
+		moment.locale('id');
+
 		setInterval(function() {
 		    $.ajax({
 		      url: "{{ route('recap-all') }}",
@@ -170,6 +172,14 @@
 		      cache: false,
 		      dataType: 'json',
 		      success: function(data){
+		      	try {
+		      		data['masuk'] = Object.keys(data['masuk']).map((key) => data['masuk'][key]);
+		      		data['pulang'] = Object.keys(data['pulang']).map((key) => data['pulang'][key]);
+		      	}
+		      	catch(e) {
+
+		      	}
+
 		        if(data['masuk'].length <= 0 && data['pulang'].length <= 0)
 	            {
 	                $("#card-absensi").html("<div class='d-flex flex-row px-5 py-5 justify-content-center align-items-center'>\
@@ -209,7 +219,7 @@
                                 </td>\
                                 <td class='text-center'>\
                                  	<div class='d-flex flex-column justify-content-center align-items-center px-2'>\
-                                        <span class='" + (isTerlambat ? "text-danger" : "text-secondary") + " text-xs font-weight-bold'>" + jamAbsen.toLocaleTimeString('en-US', options).split(" ")[0] + "</span>"
+                                        <span class='" + (isTerlambat ? "text-danger" : "text-secondary") + " text-xs font-weight-bold'>" + moment(jamAbsen).format('D MMM YYYY HH:mm:ss') + "</span>"
                                         + (isTerlambat ? "<span class='text-danger text-xs font-weight-bold'>Terlambat</span>" : "") +
                                 	"</div>\
                                 </td>\
@@ -252,7 +262,9 @@
 
 	            		data['pulang'].forEach(function(item, index) {
 	            			var jamAbsen = new Date(item.jam_absen);
-	            			var jamPulang = new Date(item.jam_pulang);
+	            			var jamPulang = new Date();
+	            			jamPulang.setHours(item.jam_pulang.split(":")[0]);
+	            			jamPulang.setMinutes(item.jam_pulang.split(":")[1]);
 
 	            			var isPulangAwal = jamAbsen.getHours() < jamPulang.getHours();
 	            			var isWfh = item.suhu_badan > 37;
@@ -273,7 +285,7 @@
                                 </td>\
                                 <td class='text-center'>\
                                  	<div class='d-flex flex-column justify-content-center align-items-center px-2'>\
-                                        <span class='" + (isPulangAwal ? "text-danger" : "text-secondary") + " text-xs font-weight-bold'>" + jamAbsen.toLocaleTimeString('en-US', options).split(" ")[0] + "</span>"
+                                        <span class='" + (isPulangAwal ? "text-danger" : "text-secondary") + " text-xs font-weight-bold'>" + moment(jamAbsen).format('D MMM YYYY HH:mm:ss') + "</span>"
                                         + (isPulangAwal ? "<span class='text-danger text-xs font-weight-bold'>Pulang awal</span>" : "") +
                                 	"</div>\
                                 </td>\
